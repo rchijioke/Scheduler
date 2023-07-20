@@ -4,7 +4,6 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import DayListItem from "components/DayListItem"
 import DayList from "components/DayList"
-
 import InterviewerListItem from "components/InterviewerListItem"
 import InterviewerList from "components/InterviewerList"
 import Button from "components/Button";
@@ -15,6 +14,7 @@ import Show from "components/Appointment/Show.js"
 import Confirm from "components/Appointment/Confirm"
 import Status from "components/Appointment/Status"
 import Error from "components/Appointment/Error"
+import Form from "components/Appointment/Form"
 
 storiesOf("Button", module)
   .addParameters({
@@ -199,3 +199,21 @@ storiesOf('Show', module)
     onClose={action('onClose')}
     />
   ))
+
+storiesOf('Form', module)
+.add('Create', () => (
+  <Form
+  interviewers={interviewers}
+  onSave={action("onSave")}
+  onCancel={action("onCancel")}
+  />
+))
+.add("Edit", () => (
+  <Form
+  student = "Roy"
+  interviewer = {0}
+  interviewers = {interviewers}
+  onSave={action("onSave")}
+  onCancel={action("onCancel")}
+  />
+))
