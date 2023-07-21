@@ -141,7 +141,7 @@ storiesOf("InterviewerList", module)
     />
   ));
 
-  const Appointments = (props) => {
+  const AppWithInterviewer = (props) => {
     const { interview, time } = props;
     const [interviewerIndex, setInterviewerIndex] = useState(0);
   
@@ -183,7 +183,7 @@ storiesOf("InterviewerList", module)
   .add("Appointment with Time", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm"/>)
   .add("Empty", () => <Empty onAdd={action("onAdd")} />) 
-  .add("Show", () =>  <Appointments/>)
+  .add("Show", () =>  <AppWithInterviewer />)
   .add("Confirm", () => (
     <Confirm
       message="Delete the appointment"
