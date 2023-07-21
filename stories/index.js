@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { Fragment } from "react";
+import {useState} from "react"
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import DayListItem from "components/DayListItem"
@@ -7,10 +7,10 @@ import DayList from "components/DayList"
 import InterviewerListItem from "components/InterviewerListItem"
 import InterviewerList from "components/InterviewerList"
 import Button from "components/Button";
-import Appointment from "components/Appointment/index.js";
-import Header from "components/Appointment/Header.js"
-import Empty from "components/Appointment/Empty.js"
-import Show from "components/Appointment/Show.js"
+import Appointment from "components/Appointment/index";
+import Header from "components/Appointment/Header"
+import Empty from "components/Appointment/Empty"
+import Show from "components/Appointment/Show"
 import Confirm from "components/Appointment/Confirm"
 import Status from "components/Appointment/Status"
 import Error from "components/Appointment/Error"
@@ -141,6 +141,33 @@ storiesOf("InterviewerList", module)
     />
   ));
 
+  const Appointments = (props) => {
+    const { interview, time } = props;
+    const [interviewerIndex, setInterviewerIndex] = useState(0);
+  
+    const nextInterviewer = () => {
+      setInterviewerIndex((prevIndex) => (prevIndex + 1) % interviewers.length);
+    };
+  
+    const currentInterviewer = interviewers[interviewerIndex];
+  
+    return (
+      <Fragment>
+        
+        <Header time={time} />
+        {interview ?
+        <Show
+          student="Lydia Miller-Jones"
+          interviewer={currentInterviewer}
+          onEdit={action("onEdit")}
+          onDelete={action("onDelete")}
+        /> : <Empty />}
+    
+        <button onClick={nextInterviewer}>Next Interviewer</button>
+      </Fragment>
+    );
+  };
+
   storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }]
@@ -156,14 +183,7 @@ storiesOf("InterviewerList", module)
   .add("Appointment with Time", () => <Appointment time="12pm" />)
   .add("Header", () => <Header time="12pm"/>)
   .add("Empty", () => <Empty onAdd={action("onAdd")} />) 
-  .add("Show", () => (
-    <Show
-      student="Lydia Miller-Jones"
-      interviewer={interview.interviewer}
-      onEdit={action("onEdit")}
-      onDelete={action("onDelete")}
-    />
-  )) 
+  .add("Show", () =>  <Appointments/>)
   .add("Confirm", () => (
     <Confirm
       message="Delete the appointment"
@@ -193,7 +213,22 @@ storiesOf("InterviewerList", module)
       onSave={action("onSave")}
       onCancel={action("onCancel")}
     />
-  )); 
-
+  ))
+  .add("Appointment Empty", () => (
+    <Fragment>
+      <Appointment id={1} time="4pm" />
+      <Appointment time="5pm" />
+    </Fragment>
+  ))
+  .add("Appointment Booked", () => (
+    <Fragment>
+      <Appointment
+        id={1}
+        time="4pm"
+        interview={{ student: "Lydia Miller-Jones", interviewer }}
+      />
+      <Appointment time="5pm" />
+    </Fragment>
+  ));
 
   
