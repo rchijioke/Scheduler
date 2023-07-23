@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"
 import "components/Appointment"
 import "components/Application.scss";
 import DayList from "components/DayList"
@@ -67,6 +68,16 @@ const appointments = {
 
 export default function Application(props) {
   const [day, setDay] = useState("Monday");
+  const [days, setDays] = useState([]);
+  useEffect(() => {
+    axios.get("/api/days")
+    .then(response => {
+      setDays(response.data);
+    })
+    .catch(error => {
+      console.error("Error fetching days:", error);
+    });
+  },[])
   const appointmentsArray = Object.values(appointments);
   return (
     <main className="layout">
