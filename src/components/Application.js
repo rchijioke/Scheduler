@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"
+import axios from "axios";
 import "components/Appointment"
 import "components/Application.scss";
 import DayList from "components/DayList"
@@ -67,18 +67,28 @@ const appointments = {
 };
 
 export default function Application(props) {
-  const [day, setDay] = useState("Monday");
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+  });
   useEffect(() => {
     axios.get("/api/days")
     .then(response => {
-      setDays(response.data);
+      setState((prev) => ({ ...prev, days: response.data }));
     })
     .catch(error => {
       console.error("Error fetching days:", error);
     });
-  },[])
-  const appointmentsArray = Object.values(appointments);
+    
+}, []);
+  const appointmentsArray = Object.values(state.appointments);
+  const setDay = (day) => {
+    setState((prev) => ({ ...prev, day }));
+  };
+  const setDays = (days) => {
+    setState({ ...state, days });
+  };
   return (
     <main className="layout">
       <section className="sidebar">
@@ -90,9 +100,9 @@ export default function Application(props) {
 <hr className="sidebar__separator sidebar--centered" />
 <nav className="sidebar__menu" >
   <DayList
-  days={days}
-  value={day}
-  onChange={setDay}
+  days={state.days}
+  value={state.day}
+  onChange={setDay} 
 />
 </nav>
 <img
