@@ -5,6 +5,8 @@ import DayList from "components/DayList"
 import Appointment from "components/Appointment/index"
 import { getAppointmentsForDay } from "helpers/selectors";
 import { getInterview } from "helpers/selectors";
+import { getInterviewersForDay } from "helpers/selectors";
+
 const days = [
   {
     id: 1,
@@ -27,6 +29,7 @@ const appointments = {
   "1": {
     id: 1,
     time: "12pm",
+   
   },
   "2": {
     id: 2,
@@ -43,6 +46,7 @@ const appointments = {
   "3": {
     id: 3,
     time: "2pm",
+   
   },
   "4": {
     id: 4,
@@ -59,11 +63,13 @@ const appointments = {
   "5": {
     id: 5,
     time: "4pm",
+    
   },
 
 "6": {
   id: 6,
   time: "5pm",
+ 
 },
 };
 
@@ -75,7 +81,6 @@ export default function Application(props) {
     interviewers: {}
   });
 
- 
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
@@ -94,23 +99,23 @@ export default function Application(props) {
         console.error("Error fetching data:", error);
       });
   }, []);
- 
 
   const setDay = (day) => {
     setState((prev) => ({ ...prev, day }));
   };
-  
-    const dailyAppointments = state?.appointments ? getAppointmentsForDay(state, state.day) : []
-    
-    const schedule = (state?.appointments && state?.interviewers)? dailyAppointments.map(appointment => {
-      const interview = getInterview(state, appointment.interview);
+  const dailyAppointments = state?.appointments ? getAppointmentsForDay(state, state.day) : []
+  const dailyInterviewers = state?.interviewers ? getInterviewersForDay(state, state.day) : [];
 
+    const schedule = state?.appointments && state?.interviewers? dailyAppointments.map(appointment => {
+      const interview = getInterview(state, appointment.interview);
+      
       return (
         <Appointment
           key={appointment.id}
           id={appointment.id}
           time={appointment.time}
           interview={interview}
+          interviewers={dailyInterviewers} // Pass the interviewers array to the Appointment component
         />
       );
     }) : []

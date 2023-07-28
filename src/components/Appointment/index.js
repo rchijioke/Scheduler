@@ -17,13 +17,13 @@ export default function Appointment(props) {
   const onAdd = () => {
     transition(CREATE);
   };
-  return <article className="appointment">
+  return <article className="appointment" data-testid="appointment">
     <Header time={props.time}/>
     {mode === EMPTY && <Empty  onAdd={onAdd}/>}
       {mode === SHOW && (
        <Show 
        student={props.interview.student}
-       interviewer={props.interview.interviewer}
+       interviewer={props.interviewers}
        />
        )}
        {mode === CREATE && <Form interviewers={[]} onCancel={back} />}
