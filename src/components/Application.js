@@ -3,9 +3,10 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList"
 import Appointment from "components/Appointment/index"
-import { getAppointmentsForDay } from "helpers/selectors";
-import { getInterview } from "helpers/selectors";
-import { getInterviewersForDay } from "helpers/selectors";
+import Form from "./Appointment/Form";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay, } from "helpers/selectors";
+import useVisualMode from "hooks/useVisualMode"
+import InterviewerList from "./InterviewerList";
 
 const days = [
   {
@@ -88,6 +89,9 @@ export default function Application(props) {
       axios.get("/api/interviewers")
     ])
       .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
+        console.log("Days data:", daysResponse.data);
+      console.log("Appointments data:", appointmentsResponse.data);
+      console.log("Interviewers data:", interviewersResponse.data);
         setState(prev => ({
           ...prev,
           days: daysResponse.data,
@@ -105,7 +109,7 @@ export default function Application(props) {
   };
   const dailyAppointments = state?.appointments ? getAppointmentsForDay(state, state.day) : []
   const dailyInterviewers = state?.interviewers ? getInterviewersForDay(state, state.day) : [];
-
+  console.log("Daily Interviewers:", dailyInterviewers);
     const schedule = state?.appointments && state?.interviewers? dailyAppointments.map(appointment => {
       const interview = getInterview(state, appointment.interview);
       
@@ -116,9 +120,41 @@ export default function Application(props) {
           time={appointment.time}
           interview={interview}
           interviewers={dailyInterviewers} // Pass the interviewers array to the Appointment component
+          bookInterview={bookInterview}
+        
+        
+        
         />
       );
-    }) : []
+    }) : [];
+
+ 
+    function bookInterview(id, interview) {
+      // Implement the functionality to book an interview here
+      console.log(id, interview);
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment,
+      };
+      setState((prev) => ({
+        ...prev,
+        appointments,
+      }));
+      axios.put(`/api/appointments/${id}`, { interview })
+      .then((response) => {
+        // Handle successful response (if needed)
+        console.log('Interview data updated successfully:', response.data);
+      })
+      .catch((error) => {
+        // Handle error (if needed)
+        console.error('Error updating interview data:', error);
+      });
+    }
+   
 
   return (
     <main className="layout">
@@ -135,6 +171,9 @@ export default function Application(props) {
   value={state.day}
   onChange={setDay} 
 />
+<div> 
+ 
+</div>
 </nav>
 <img
   className="sidebar__lhl sidebar--centered"
@@ -147,7 +186,6 @@ export default function Application(props) {
         {schedule}
        
       </section>
-  
     </main>
   );
 }
