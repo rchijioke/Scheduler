@@ -4,6 +4,7 @@ import "components/Application.scss";
 import DayList from "components/DayList"
 import Appointment from "components/Appointment/index"
 import Form from "./Appointment/Form";
+import Confirm from "./Appointment/Confirm";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay, } from "helpers/selectors";
 import useVisualMode from "hooks/useVisualMode"
 import InterviewerList from "./InterviewerList";
@@ -121,6 +122,7 @@ export default function Application(props) {
           interview={interview}
           interviewers={dailyInterviewers} // Pass the interviewers array to the Appointment component
           bookInterview={bookInterview}
+          deleteInterview={deleteInterview}
         
         
         
@@ -140,12 +142,13 @@ export default function Application(props) {
         ...state.appointments,
         [id]: appointment,
       };
-      setState((prev) => ({
-        ...prev,
-        appointments,
-      }));
-      axios.put(`/api/appointments/${id}`, { interview })
+    
+      return axios.put(`/api/appointments/${id}`, { interview })
       .then((response) => {
+        setState((prev) => ({
+          ...prev,
+          appointments,
+        }));
         // Handle successful response (if needed)
         console.log('Interview data updated successfully:', response.data);
       })
@@ -155,6 +158,35 @@ export default function Application(props) {
       });
     }
    
+
+  function deleteInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+   
+    ;
+
+    // Send a PUT request to update the appointment data in the database
+    return axios.delete(`/api/appointments/${id}`)
+      .then((response) => {
+        setState((prev) => ({
+          ...prev,
+          appointments,
+        }));
+    
+        // Handle successful response (if needed)
+        console.log('Interview data deleted successfully:', response.data);
+      })
+      .catch((error) => {
+        // Handle error (if needed)
+        console.error('Error deleting interview data:', error);
+      });
+  }
 
   return (
     <main className="layout">
