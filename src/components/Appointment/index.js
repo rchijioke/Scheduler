@@ -68,7 +68,7 @@ export default function Appointment(props) {
     // Action to be taken when user confirms the delete operation
     transition(DELETING, true);
     props
-      .deleteInterview(props.id)
+      .cancelInterview(props.id)
       .then(() => {
         transition(EMPTY);
       })

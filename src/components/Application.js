@@ -8,7 +8,7 @@ import Confirm from "./Appointment/Confirm";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay, } from "helpers/selectors";
 import useVisualMode from "hooks/useVisualMode"
 import InterviewerList from "./InterviewerList";
-
+import useApplicationData from "hooks/useApplicationData";
 const days = [
   {
     id: 1,
@@ -76,120 +76,32 @@ const appointments = {
 };
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview,
+    interviewers,
+    appointments,
+  } = useApplicationData();
 
-  useEffect(() => {
-    Promise.all([
-      axios.get("/api/days"),
-      axios.get("/api/appointments"),
-      axios.get("/api/interviewers")
-    ])
-      .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
-       
-        setState(prev => ({
-          ...prev,
-          days: daysResponse.data,
-          appointments: appointmentsResponse.data,
-          interviewers: interviewersResponse.data,
-        }));
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-  const setDay = (day) => {
-    setState((prev) => ({ ...prev, day }));
-  };
-  const dailyAppointments = state?.appointments ? getAppointmentsForDay(state, state.day) : []
-  const dailyInterviewers = state?.interviewers ? getInterviewersForDay(state, state.day) : [];
-  console.log("Daily Interviewers:", dailyInterviewers);
-    const schedule = state?.appointments && state?.interviewers? dailyAppointments.map(appointment => {
-      const interview = getInterview(state, appointment.interview);
-      
+  
+  const schedule = appointments.map(appointment => {
       return (
         <Appointment
           key={appointment.id}
           id={appointment.id}
           time={appointment.time}
-          interview={interview}
-          interviewers={dailyInterviewers} // Pass the interviewers array to the Appointment component
+          interview={appointment.interview}
+          interviewers={interviewers} 
           bookInterview={bookInterview}
-          deleteInterview={deleteInterview}
-
-        
-        
-        
-        />
-      );
-    }) : [];
-
- 
-    function bookInterview(id, interview) {
-      // Implement the functionality to book an interview here
-      console.log(id, interview);
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview },
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment,
-      };
-
-      // if(!interview.interviewer){
-      //   return false
-      // }
-    
-      return axios.put(`/api/appointments/${id}`, { interview })
-      .then((response) => {
-        setState((prev) => ({
-          ...prev,
-          appointments,
-        }));
-        // Handle successful response (if needed)
-        console.log('Interview data updated successfully:', response.data);
+          cancelInterview={cancelInterview}
+          />
+      )
       })
-      .catch((error) => {
-        // Handle error (if needed)
-        console.error('Error updating interview data:', error);
-      });
-    }
-   
 
-  function deleteInterview(id) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null,
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-   
-    ;
-
-    // Send a PUT request to update the appointment data in the database
-    return axios.delete(`/api/appointments/${id}`)
-      .then((response) => {
-        setState((prev) => ({
-          ...prev,
-          appointments,
-        }));
     
-        // Handle successful response (if needed)
-        console.log('Interview data deleted successfully:', response.data);
-      })
-      .catch((error) => {
-        // Handle error (if needed)
-        console.error('Error deleting interview data:', error);
-      });
-  }
+
 
   return (
     <main className="layout">
