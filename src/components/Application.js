@@ -90,9 +90,7 @@ export default function Application(props) {
       axios.get("/api/interviewers")
     ])
       .then(([daysResponse, appointmentsResponse, interviewersResponse]) => {
-        console.log("Days data:", daysResponse.data);
-      console.log("Appointments data:", appointmentsResponse.data);
-      console.log("Interviewers data:", interviewersResponse.data);
+       
         setState(prev => ({
           ...prev,
           days: daysResponse.data,
@@ -123,6 +121,7 @@ export default function Application(props) {
           interviewers={dailyInterviewers} // Pass the interviewers array to the Appointment component
           bookInterview={bookInterview}
           deleteInterview={deleteInterview}
+
         
         
         
@@ -142,6 +141,10 @@ export default function Application(props) {
         ...state.appointments,
         [id]: appointment,
       };
+
+      // if(!interview.interviewer){
+      //   return false
+      // }
     
       return axios.put(`/api/appointments/${id}`, { interview })
       .then((response) => {
