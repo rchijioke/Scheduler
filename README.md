@@ -22,7 +22,7 @@ npm test
 npm run storybook
 ```
 `Application.js`:
-this is a react application that fetches data from APIs to display a daily schedule with appointments and interviewers, allowing users to select different days.
+ uses the useApplicationData hook to manage the state and data for booking and canceling interviews. It allows users to make book and cancel interviews.
 
 `Button.js`:
 is a react component that renders a button with styles based on the props passed to it and it can also be disabled
@@ -41,10 +41,12 @@ When an interviewer is clicked, it calls the "props.onChange(interviewer.id)" fu
 is a React component that renders an individual interviewer item with an avatar, applying selected styling when clicked, and handling the interviewer selection.
 
 `useVisualMode`:
-is a custom React hook called "useVisualMode" that manages a stateful mode, allowing transitions between different modes and the ability to go back to the previous mode.
+is a custom React hook called "useVisualMode" that manages a a visual mode state by maintaining both the current mode and a history of previous modes.
 
 `stories/index`:
  defines multiple stories for different React components using the Storybook library, showcasing various states and interactions of the components.
 
 
+`hook/useApplication`:
+has a custom react hook named useApplicationData that manages the state and data for booking and cancelling interviews, also updating the number of available spots for each day either when an appointment is deleted or created
 

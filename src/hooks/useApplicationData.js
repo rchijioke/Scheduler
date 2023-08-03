@@ -44,11 +44,24 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
+    const day = state.days.find(item => item.name === state.day);
+    const spots = day.appointments.reduce((count, appointmentId) => {
+      if (!appointments[appointmentId].interview) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+
+    const updatedDay = { ...day, spots };
+    // Find the index of the day and replace it with the updated day in the days array
+    const updatedDays = state.days.map(item => (item.name === state.day ? updatedDay : item));
+
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
         setState(prev => ({
           ...prev,
           appointments,
+          days: updatedDays,
         }));
         console.log('Interview data updated successfully:', response.data);
       })
@@ -67,11 +80,22 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
+    const day = state.days.find(item => item.name === state.day);
+    const spots = day.appointments.reduce((count, appointmentId) => {
+      if (!appointments[appointmentId].interview) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+    const updatedDay = { ...day, spots };
+     // Find the index of the day and replace it with the updated day in the days array
+     const updatedDays = state.days.map(item => (item.name === state.day ? updatedDay : item));
     return axios.delete(`/api/appointments/${id}`)
       .then(response => {
         setState(prev => ({
           ...prev,
           appointments,
+          days: updatedDays,
         }));
         console.log('Interview data deleted successfully:', response.data);
       })
