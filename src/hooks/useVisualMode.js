@@ -19,7 +19,7 @@ export default function useVisualMode(initial) {
   };
   const back = () => {
    
-    if (history.length >= 1) {
+    if (history.length > 1) {
       const newHistory = [...history];
       newHistory.pop();
       setMode(newHistory[newHistory.length - 1]); // Set the mode to the previous one

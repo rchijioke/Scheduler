@@ -42,19 +42,6 @@ export default function Form (props) {
     props.onSave(student, interviewer);
   }
 
-//   const handleSave = () => {
-//   if (!student) {
-//     console.log("Student name is blank");
-//     setError("Student name cannot be blank")
-//   } 
-
-//   else {
-//     setError(""); // Clear any existing error message
-//    validate()
-//   };
-// }
-
-
 
 const [error, setError] = useState("");
 

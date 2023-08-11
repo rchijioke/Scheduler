@@ -39,7 +39,7 @@ return {
 
 export const getInterviewersForDay = (state, day) => {
   const selectedDay = state.days.find(item => item.name === day);
-
+console.log(selectedDay)
   if (!selectedDay || selectedDay.interviewers.length === 0) {
     return [];
   }
