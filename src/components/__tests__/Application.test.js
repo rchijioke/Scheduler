@@ -3,13 +3,13 @@
 */
 
 import React from "react";
-
+import axios from "__mocks__/axios";
 /*
   We import our helper functions from the react-testing-library
   The render function allows us to render Components
 */
 
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, fireEvent, getByText, waitForElement} from "@testing-library/react";
 
 /*
   We import the component that we are testing
@@ -23,11 +23,19 @@ afterEach(cleanup);
   A test that renders a React Component
 */
 
-it("renders without crashing", () => {
-  // render(<Application />);
-});
 
 describe("Appointment", () => {
+
+  
+it("defaults to Monday and changes the schedule when a new day is selected", () => {
+  const { getByText } = render(<Application />);
+
+  return (waitForElement(() => getByText("Monday")).then(() => {
+    fireEvent.click(getByText("Tuesday"));
+    expect(getByText("Leopold Silvers")).toBeInTheDocument();
+  }))
+});
+
   it("displays the appointment when in SHOW mode", () => {
     // Test code for SHOW mode
   });
