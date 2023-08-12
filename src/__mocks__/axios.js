@@ -1,4 +1,4 @@
-import axios from "axios";
+
 const fixtures = {
   days: [
     {
@@ -54,7 +54,7 @@ const fixtures = {
   }
 }
   
-export default {
+const axiosMock = {
   defaults: { baseURL: "" },
   get: jest.fn(url => {
     if (url === "/api/days") {
@@ -82,5 +82,8 @@ export default {
         data: fixtures.interviewers
       });
     }
+  }),
+  put: jest.fn(url => {
   })
 };
+export default axiosMock;
