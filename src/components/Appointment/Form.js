@@ -39,6 +39,7 @@ export default function Form (props) {
       return;
     }
     setError("")
+    
     props.onSave(student, interviewer);
   }
 
@@ -47,7 +48,7 @@ export default function Form (props) {
 const [error, setError] = useState("");
 
   // const interviewersString = props.interviewers.toString();
-  console.log("Props.save:", props.save);
+ 
   return <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">
     <form autoComplete="off" onSubmit={event => event.preventDefault()}>

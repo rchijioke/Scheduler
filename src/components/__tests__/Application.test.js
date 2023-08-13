@@ -14,11 +14,13 @@ import {
   cleanup,
   fireEvent,
   getByText,
+  waitFor,
   waitForElement,
   prettyDOM,
   getAllByTestId,
   getByAltText,
   getByPlaceholderText,
+  queryByText
 } from "@testing-library/react";
 
 /*
@@ -26,6 +28,7 @@ import {
 */
 
 import Application from "components/Application";
+
 
 jest.mock("axios");
 
@@ -66,7 +69,7 @@ describe("Appointment", () => {
   
     console.log(prettyDOM(appointment));
   });
-
+  
   it("displays the appointment when in SHOW mode", () => {
     // Test code for SHOW mode
   });
