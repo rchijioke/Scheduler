@@ -76,7 +76,7 @@ export default function Appointment(props) {
         transition(ERROR_DELETE, true);
       });
   }
-
+console.log(props)
   return (
     <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
@@ -84,7 +84,7 @@ export default function Appointment(props) {
       {mode === SHOW && props.interview?.student &&(
         <Show
           student={props.interview.student}
-          interviewer={props.interviewers}
+          interviewer={props.interview.interviewer}
           onDelete={cancelInterview}
           onEdit={editInterview}
         />
@@ -107,6 +107,7 @@ export default function Appointment(props) {
         <Form
           student={props.interview.student}
           interviewers={props.interviewers}
+          interviewer={props.interview.interviewer.id}
           onCancel={back}
           onSave={save}
         />
