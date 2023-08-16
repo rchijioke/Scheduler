@@ -3,11 +3,6 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList"
 import Appointment from "components/Appointment/index"
-import Form from "./Appointment/Form";
-import Confirm from "./Appointment/Confirm";
-import { getAppointmentsForDay, getInterview, getInterviewersForDay, } from "helpers/selectors";
-import useVisualMode from "hooks/useVisualMode"
-import InterviewerList from "./InterviewerList";
 import useApplicationData from "hooks/useApplicationData";
 const days = [
   {

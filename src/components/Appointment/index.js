@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./styles.scss";
 import Header from "./Header";
 import Show from "./Show";
@@ -7,7 +7,6 @@ import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
-import InterviewerList from "components/InterviewerList";
 import Error from "./Error";
 
 const EMPTY = "EMPTY";

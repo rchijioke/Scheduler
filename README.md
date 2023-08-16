@@ -50,3 +50,17 @@ is a custom React hook called "useVisualMode" that manages a a visual mode state
 `hook/useApplication`:
 has a custom react hook named useApplicationData that manages the state and data for booking and cancelling interviews, also updating the number of available spots for each day either when an appointment is deleted or created
 
+`axios.js`
+this file defines a set of mock data and mock Axios functions that simulate HTTP requests for testing purposes in a React application using Jest. 
+
+`appointments.spec.js`:
+this file contains multiple Cypress tests for an appointment booking and management feature in a React application.
+
+`navigation`
+this file contains Cypress tests that check the navigation functionality within a React application.
+
+`cypress.json`:
+This configuration file for Cypress specifies the base URL of the application being tested as "http://localhost:8000". It also sets the viewport width to 1280 pixels and the viewport height to 720 pixels, controlling the dimensions of the test browser window.
+
+`Package.json`:
+This package.json file for the "scheduler" project specifies its dependencies, development dependencies, and scripts for managing the application.
