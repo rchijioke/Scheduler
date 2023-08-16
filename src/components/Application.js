@@ -67,12 +67,8 @@ const appointments = {
     time: "4pm",
     
   },
-
-"6": {
-  id: 6,
-  time: "5pm",
  
-},
+
 };
 
 export default function Application(props) {
@@ -131,7 +127,11 @@ export default function Application(props) {
       <section className="schedule">
         
         {schedule}
+       <Appointment 
        
+       key="last" 
+       time="5pm"
+       />
       </section>
     </main>
   );
