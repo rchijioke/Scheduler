@@ -80,3 +80,4 @@ This configuration file for Cypress specifies the base URL of the application be
 
 `Package.json`:
 This package.json file for the "scheduler" project specifies its dependencies, development dependencies, and scripts for managing the application.
+
