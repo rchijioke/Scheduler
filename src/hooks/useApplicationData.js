@@ -66,9 +66,6 @@ export default function useApplicationData() {
         }));
         console.log('Interview data updated successfully:', response.data);
       })
-      .catch(error => {
-        console.error('Error updating interview data:', error);
-      });
   };
 
   const cancelInterview = (id) => {
@@ -100,9 +97,6 @@ export default function useApplicationData() {
         }));
         console.log('Interview data deleted successfully:', response.data);
       })
-      .catch(error => {
-        console.error('Error deleting interview data:', error);
-      });
   };
 
   const interviewers = getInterviewersForDay(state, state.day);

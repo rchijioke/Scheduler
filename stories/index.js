@@ -216,8 +216,8 @@ storiesOf("InterviewerList", module)
   ))
   .add("Appointment Empty", () => (
     <Fragment>
-      <Appointment id={1} time="4pm" />
-      <Appointment time="5pm" />
+      <Appointment id={1} time="4pm"  interviewers={interviewers} />
+      <Appointment time="5pm"  interviewers={interviewers}/>
     </Fragment>
   ))
   .add("Appointment Booked", () => (
@@ -226,6 +226,7 @@ storiesOf("InterviewerList", module)
         id={1}
         time="4pm"
         interview={{ student: "Lydia Miller-Jones", interviewer }}
+        interviewers={interviewers}
       />
       <Appointment time="5pm" />
     </Fragment>

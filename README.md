@@ -21,6 +21,22 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Run The Server
+
+Running the server normally
+```sh
+npm start
+```
+
+Running the server so it returns an error when saving/deleting for testing the client's error handling capabilities
+```sh
+npm run error
+```
+
+## Api
+
+### Days
 `Application.js`:
  uses the useApplicationData hook to manage the state and data for booking and canceling interviews. It allows users to make book and cancel interviews.
 
